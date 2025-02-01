@@ -1,5 +1,3 @@
-import uvicorn
-
 from dataclasses import dataclass
 from typing import Dict, Any
 from datetime import datetime
@@ -14,7 +12,6 @@ from app.src.core.logging import configure_log
 from app.src.core.config import Config
 
 from app.src.api.exceptions.custom_exceptions import APIException
-# from app.src.api.domain.schemas.health_check import HealthCheck
 
 from app.src.api.v1.routes import collections_route
 
@@ -29,20 +26,20 @@ class AppFactory:
 
     def create_app(self) -> FastAPI:
         app = FastAPI(
-            title=self.config['API']['APP_TITLE'],
-            description=self.config['API']['APP_DESC'],
-            version=self.config['API']['VERSION'],
+            title='Collections API',
+            description='AWS Reko Collections Admin API',
+            version='1.0',
             docs_url='/api/docs',
             redoc_url='/api/redoc',
             openapi_url='/api/openapi.json',
-            root_path='/v2'
+            root_path='/v1'
         )
         
         self._configure(app)
         return app
 
     def _configure(self, app: FastAPI) -> None:
-        """Configura middlewares, manejadores de errores y rutas."""
+        '''Configura middlewares, manejadores de errores y rutas.'''
         self._add_middlewares(app)
         self._add_exception_handlers(app)
         self._add_routes(app)
@@ -55,7 +52,7 @@ class AppFactory:
         
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=[self.config['API']['ALLOW_ORIGINS']],
+            allow_origins=['*'],
             allow_credentials=True,
             allow_methods=['*'],
             allow_headers=['*'],
@@ -64,23 +61,23 @@ class AppFactory:
     def _add_exception_handlers(self, app: FastAPI) -> None:
         async def handle_api_exception(request: Request, exc: APIException) -> JSONResponse:
             self.logger.exception(
-                f"handle_api_exception: {exc.message}",
+                f'handle_api_exception: {exc.message}',
                 extra={
-                    "trace_id": exc.trace_id,
-                    "path": request.url.path,
-                    "method": request.method,
-                    "error_code": exc.error_code
+                    'trace_id': exc.trace_id,
+                    'path': request.url.path,
+                    'method': request.method,
+                    'error_code': exc.error_code
                 }
             )
             
             return JSONResponse(
                 status_code=exc.status_code,
                 content={
-                    "message": exc.message,
-                    "error_code": exc.error_code,
-                    "timestamp": exc.timestamp.isoformat(),
-                    "trace_id": exc.trace_id,
-                    "path": request.url.path
+                    'message': exc.message,
+                    'error_code': exc.error_code,
+                    'timestamp': exc.timestamp.isoformat(),
+                    'trace_id': exc.trace_id,
+                    'path': request.url.path
                 }
             )
 
@@ -95,10 +92,10 @@ class AppFactory:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content={
-                    "message": "An unexpected error occurred",
-                    "error_code": "INTERNAL_SERVER_ERROR",
-                    "trace_id": trace_id,
-                    "timestamp": datetime.now().isoformat()
+                    'message': 'An unexpected error occurred',
+                    'error_code': 'INTERNAL_SERVER_ERROR',
+                    'trace_id': trace_id,
+                    'timestamp': datetime.now().isoformat()
                 }
             )
 
@@ -106,28 +103,13 @@ class AppFactory:
         app.add_exception_handler(Exception, handle_global_exception)
 
     def _add_routes(self, app: FastAPI) -> None:
-        '''
-        async def health_check() -> HealthCheck:
-            return HealthCheck(
-                status='healthy',
-                version=self.config['API']['VERSION']
-            )
-        '''
-        # app.get('/')(health_check)
+        async def health() -> Dict:
+            return {'status': 'Health'}
+        
+        app.get('/')(health)
         app.include_router(collections_route.router)
 
 def create_app() -> FastAPI:
     return AppFactory(Config().get_config()).create_app()
 
 app = create_app()
-
-if __name__ == '__main__':
-    config = Config().get_config()
-    print(config.getint('API', 'WORKERS'))
-    uvicorn.run(
-        'main:app',
-        host=config['API']['HOST'],
-        port=config.getint('API', 'PORT'),
-        workers=config.getint('API', 'WORKERS'),
-        reload=True
-    )
