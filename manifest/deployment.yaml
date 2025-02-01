@@ -17,6 +17,9 @@ spec:
      containers:
      - name: collections-api
        image: aluna1997/collections-api:2.0
+       envFrom:
+        - secretRef:
+            name: api-secrets
        ports:
        - containerPort: 8000
        resources:
