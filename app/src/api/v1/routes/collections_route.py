@@ -1,17 +1,16 @@
-import boto3
-
-from fastapi import FastAPI
+from fastapi import APIRouter
 from fastapi import status
-from typing import Dict, List
+from typing import Dict
 
 from app.src.api.services.collections_service import CollectionsService
 
-app = FastAPI()
-rekognition = boto3.client('rekognition')
+# Router from api.
+router = APIRouter(prefix='/collections',
+                   tags=['Collections'])
 
-@app.get('/collections',
-         status_code=status.HTTP_200_OK,
-         summary='Lista las colecciones actuales.')
-async def list_collections() -> List[Dict]:
-    service = CollectionsService
+@router.get('/list-collections',
+            status_code=status.HTTP_200_OK,
+            summary='Lista las colecciones actuales.')
+async def list_collections() -> Dict:
+    service = CollectionsService()
     return await service.list_collections()

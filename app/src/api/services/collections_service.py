@@ -2,7 +2,7 @@ import boto3
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.src.api.exceptions.custom_exceptions import ClientRekoError
-from typing import Any
+from typing import Dict
 from app.src.core.logging import configure_log
 
 # Logger
@@ -21,7 +21,7 @@ class CollectionsService():
     def __init__(self, session: AsyncSession = None):
         self.repository = None
         
-    async def list_collections(self) -> Any:
+    async def list_collections(self) -> Dict:
         '''
         Lista las colecciones actuales de AWS Reko.
         '''

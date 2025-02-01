@@ -39,7 +39,7 @@ class AppFactory:
         return app
 
     def _configure(self, app: FastAPI) -> None:
-        """Configura middlewares, manejadores de errores y rutas."""
+        '''Configura middlewares, manejadores de errores y rutas.'''
         self._add_middlewares(app)
         self._add_exception_handlers(app)
         self._add_routes(app)
@@ -61,23 +61,23 @@ class AppFactory:
     def _add_exception_handlers(self, app: FastAPI) -> None:
         async def handle_api_exception(request: Request, exc: APIException) -> JSONResponse:
             self.logger.exception(
-                f"handle_api_exception: {exc.message}",
+                f'handle_api_exception: {exc.message}',
                 extra={
-                    "trace_id": exc.trace_id,
-                    "path": request.url.path,
-                    "method": request.method,
-                    "error_code": exc.error_code
+                    'trace_id': exc.trace_id,
+                    'path': request.url.path,
+                    'method': request.method,
+                    'error_code': exc.error_code
                 }
             )
             
             return JSONResponse(
                 status_code=exc.status_code,
                 content={
-                    "message": exc.message,
-                    "error_code": exc.error_code,
-                    "timestamp": exc.timestamp.isoformat(),
-                    "trace_id": exc.trace_id,
-                    "path": request.url.path
+                    'message': exc.message,
+                    'error_code': exc.error_code,
+                    'timestamp': exc.timestamp.isoformat(),
+                    'trace_id': exc.trace_id,
+                    'path': request.url.path
                 }
             )
 
@@ -92,10 +92,10 @@ class AppFactory:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content={
-                    "message": "An unexpected error occurred",
-                    "error_code": "INTERNAL_SERVER_ERROR",
-                    "trace_id": trace_id,
-                    "timestamp": datetime.now().isoformat()
+                    'message': 'An unexpected error occurred',
+                    'error_code': 'INTERNAL_SERVER_ERROR',
+                    'trace_id': trace_id,
+                    'timestamp': datetime.now().isoformat()
                 }
             )
 
@@ -103,6 +103,10 @@ class AppFactory:
         app.add_exception_handler(Exception, handle_global_exception)
 
     def _add_routes(self, app: FastAPI) -> None:
+        async def health() -> Dict:
+            return {'status': 'Health'}
+        
+        app.get('/')(health)
         app.include_router(collections_route.router)
 
 def create_app() -> FastAPI:
