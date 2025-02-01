@@ -10,9 +10,9 @@ from app.src.core.logging import configure_log
 logger = configure_log()
 
 rekognition = boto3.client('rekognition',
-                           aws_access_key_id=os.getenv(''),
-                           aws_secret_access_key=os.getenv(''),
-                           region_name=os.getenv(''))
+                           aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                           aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+                           region_name=os.getenv('AWS_DEFAULT_REGION'))
 
 class CollectionsService():
     '''
