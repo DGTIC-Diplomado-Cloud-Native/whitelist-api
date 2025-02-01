@@ -1,26 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: collections-api
+ name: collections-api
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: collections-api
-  template:
-    metadata:
-      labels:
-        app: collections-api
-    spec:
-      containers:
-      - name: collections-api
-        image: aluna1997/collections-api:1.0
-        ports:
-        - containerPort: 8000
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+ replicas: 2
+ selector:
+   matchLabels:
+     app: collections-api
+ template:
+   metadata:
+     labels:
+       app: collections-api
+   spec:
+     imagePullSecrets:
+     - name: dockerhub-secret
+     containers:
+     - name: collections-api
+       image: aluna1997/collections-api:1.0
+       ports:
+       - containerPort: 8000
+       resources:
+         requests:
+           memory: "128Mi"
+           cpu: "100m"
+         limits:
+           memory: "256Mi"
+           cpu: "500m"
