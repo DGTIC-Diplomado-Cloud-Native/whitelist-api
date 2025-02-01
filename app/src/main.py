@@ -1,5 +1,3 @@
-import uvicorn
-
 from dataclasses import dataclass
 from typing import Dict, Any
 from datetime import datetime
@@ -14,7 +12,6 @@ from app.src.core.logging import configure_log
 from app.src.core.config import Config
 
 from app.src.api.exceptions.custom_exceptions import APIException
-# from app.src.api.domain.schemas.health_check import HealthCheck
 
 from app.src.api.v1.routes import collections_route
 
@@ -29,13 +26,13 @@ class AppFactory:
 
     def create_app(self) -> FastAPI:
         app = FastAPI(
-            title=self.config['API']['APP_TITLE'],
-            description=self.config['API']['APP_DESC'],
-            version=self.config['API']['VERSION'],
+            title='Collections API',
+            description='AWS Reko Collections Admin API',
+            version='1.0',
             docs_url='/api/docs',
             redoc_url='/api/redoc',
             openapi_url='/api/openapi.json',
-            root_path='/v2'
+            root_path='/v1'
         )
         
         self._configure(app)
@@ -55,7 +52,7 @@ class AppFactory:
         
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=[self.config['API']['ALLOW_ORIGINS']],
+            allow_origins=['*'],
             allow_credentials=True,
             allow_methods=['*'],
             allow_headers=['*'],
@@ -106,28 +103,9 @@ class AppFactory:
         app.add_exception_handler(Exception, handle_global_exception)
 
     def _add_routes(self, app: FastAPI) -> None:
-        '''
-        async def health_check() -> HealthCheck:
-            return HealthCheck(
-                status='healthy',
-                version=self.config['API']['VERSION']
-            )
-        '''
-        # app.get('/')(health_check)
         app.include_router(collections_route.router)
 
 def create_app() -> FastAPI:
     return AppFactory(Config().get_config()).create_app()
 
 app = create_app()
-
-if __name__ == '__main__':
-    config = Config().get_config()
-    print(config.getint('API', 'WORKERS'))
-    uvicorn.run(
-        'main:app',
-        host=config['API']['HOST'],
-        port=config.getint('API', 'PORT'),
-        workers=config.getint('API', 'WORKERS'),
-        reload=True
-    )

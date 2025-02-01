@@ -63,18 +63,10 @@ class GenerateValidFileParamsError(APIException):
             error_code='GENERATE_VALID_FILE_PARAMS_ERROR'
         )
 
-class InsertInfoExperimentError(APIException):
+class ClientRekoError(APIException):
     def __init__(self, message: str):
         super().__init__(
             message=message,
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            error_code='INSERT_INFO_EXPERIMENT_ERROR'
-        )
-        
-class GenerateValidFileMasiveError(APIException):
-    def __init__(self, message: str):
-        super().__init__(
-            message=message,
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            error_code='GENERATE_VALID_FILE_MASIVE_ERROR'
+            error_code='CLIENT_REKO_ERROR'
         )
