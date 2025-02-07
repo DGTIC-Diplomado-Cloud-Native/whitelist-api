@@ -4,6 +4,7 @@ from typing import Optional
 from loguru import logger
 from dataclasses import dataclass
 from pathlib import Path
+from app.src.core.config import Config
 
 @dataclass
 class LogConfig:
@@ -69,5 +70,7 @@ def configure_log() -> any:
     '''
     Función helper para configurar el logger.
     '''
-    config = LogConfig(file_path=Path('/tmp/tld_log/tld.log'))
-    return Logger.get_instance(config)
+    cfg = Config().get_config()
+    
+    log_config = LogConfig(file_path=Path(cfg.get('API', 'LOG_PATH')))
+    return Logger.get_instance(log_config)

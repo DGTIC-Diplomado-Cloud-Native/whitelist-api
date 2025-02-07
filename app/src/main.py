@@ -14,6 +14,8 @@ from app.src.core.config import Config
 from app.src.api.exceptions.custom_exceptions import APIException
 
 from app.src.api.v1.routes import collections_route
+from app.src.api.v1.routes import users_route
+
 
 @dataclass
 class AppFactory:
@@ -108,6 +110,7 @@ class AppFactory:
         
         app.get('/')(health)
         app.include_router(collections_route.router)
+        app.include_router(users_route.router)
 
 def create_app() -> FastAPI:
     return AppFactory(Config().get_config()).create_app()

@@ -12,5 +12,8 @@ router = APIRouter(prefix='/collections',
             status_code=status.HTTP_200_OK,
             summary='Lista las colecciones actuales.')
 async def list_collections() -> Dict:
+    '''
+    Endpoint para listar todas las colecciones.
+    '''
     service = CollectionsService()
     return await service.list_collections()

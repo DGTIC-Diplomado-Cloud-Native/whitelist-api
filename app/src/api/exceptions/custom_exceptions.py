@@ -3,6 +3,10 @@ from datetime import datetime
 from uuid import uuid4
 
 class APIException(Exception):
+    '''
+    Clase base para excepciones personalizadas de la API.
+    Incluye mensaje, código de estado HTTP, código de error, timestamp y ID de rastreo.
+    '''
     def __init__(
         self,
         message: str,
@@ -16,6 +20,10 @@ class APIException(Exception):
         self.trace_id = str(uuid4())
 
 class NotFoundError(APIException):
+    '''
+    Excepción para recursos no encontrados.
+    Código estado: 404 Not Found.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -24,6 +32,10 @@ class NotFoundError(APIException):
         )
 
 class ValidationError(APIException):
+    '''
+    Excepción para errores de validación de datos.
+    Código estado: 422 Unprocessable Entity.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -32,6 +44,10 @@ class ValidationError(APIException):
         )
         
 class DatabaseError(APIException):
+    '''
+    Excepción para errores de base de datos.
+    Código estado: 500 Internal Server Error.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -40,6 +56,10 @@ class DatabaseError(APIException):
         )
         
 class AuthenticationError(APIException):
+    '''
+    Excepción para errores de autenticación.
+    Código estado: 401 Unauthorized.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -48,6 +68,10 @@ class AuthenticationError(APIException):
         )
         
 class AuthorizationError(APIException):
+    '''
+    Excepción para errores de autorización.
+    Código estado: 403 Forbidden.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -56,6 +80,10 @@ class AuthorizationError(APIException):
         )
         
 class GenerateValidFileParamsError(APIException):
+    '''
+    Excepción para errores en la generación de parámetros de archivo.
+    Código estado: 500 Internal Server Error.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,
@@ -64,6 +92,10 @@ class GenerateValidFileParamsError(APIException):
         )
 
 class ClientRekoError(APIException):
+    '''
+    Excepción para errores del cliente Rekognition.
+    Código estado: 500 Internal Server Error.
+    '''
     def __init__(self, message: str):
         super().__init__(
             message=message,

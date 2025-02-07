@@ -5,9 +5,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.src.api.exceptions.custom_exceptions import ClientRekoError
 from typing import Dict
 from app.src.core.logging import configure_log
+from dotenv import load_dotenv
 
 # Logger
 logger = configure_log()
+
+# ENV
+load_dotenv()
 
 rekognition = boto3.client('rekognition',
                            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
