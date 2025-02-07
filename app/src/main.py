@@ -28,8 +28,8 @@ class AppFactory:
 
     def create_app(self) -> FastAPI:
         app = FastAPI(
-            title='Collections API',
-            description='AWS Reko Collections Admin API',
+            title='Whitelist API',
+            description='Whitelist API',
             version='1.0',
             docs_url='/api/docs',
             redoc_url='/api/redoc',
