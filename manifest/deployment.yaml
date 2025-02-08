@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: collections-api
+ name: whitelist-api
 spec:
  replicas: 2
  selector:
    matchLabels:
-     app: collections-api
+     app: whitelist-api
  template:
    metadata:
      labels:
-       app: collections-api
+       app: whitelist-api
    spec:
      imagePullSecrets:
      - name: dockerhub-secret
      containers:
-     - name: collections-api
-       image: aluna1997/collections-api:2.0
+     - name: whitelist-api
+       image: aluna1997/whitelist-api:2.0
        envFrom:
         - secretRef:
             name: api-secrets
