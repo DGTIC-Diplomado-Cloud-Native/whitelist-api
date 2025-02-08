@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    // Configuración de herramientas (en este caso, Python)
-    tools {
-        python3 'python3' // Asegúrate de que el nombre coincida con la configuración de Jenkins
-    }
-
     stages {
         // Etapa 1: Inicialización y configuración del entorno
         stage('Initialize') {
