@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    // Configuración de herramientas (en este caso, Python)
+    tools {
+        python 'python3' // Asegúrate de que el nombre coincida con la configuración de Jenkins
+    }
+
+    stages {
+        // Etapa 1: Inicialización y configuración del entorno
+        stage('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "Python Version = $(python3 --version)"
+                    echo "Pip Version = $(pip3 --version)"
+                '''
+            }
+        }
+
+    post {
+        always {
+            echo 'Pipeline finalizado, limpiando...'
+        }
+        success {
+            echo '¡Pipeline ejecutado con éxito!'
+        }
+        failure {
+            echo 'Pipeline falló. Revisa los logs para más detalles.'
+        }
+        }
+    }
+
+}
