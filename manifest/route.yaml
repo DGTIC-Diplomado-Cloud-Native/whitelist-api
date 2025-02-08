@@ -1,10 +1,10 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: collections-api-route
+  name: whitelist-api-route
 spec:
   to:
     kind: Service
-    name: collections-api-service
+    name: whitelist-api-service
   port:
     targetPort: 8000
