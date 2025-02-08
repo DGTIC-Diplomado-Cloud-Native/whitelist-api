@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        // Etapa 1: Inicialización y configuración del entorno
+        // Etapa 1: Inicialización y configuración del entorno.
         stage('Initialize') {
             steps {
                 sh '''
@@ -12,7 +12,9 @@ pipeline {
                 '''
             }
         }
+    }
 
+    // Post-actions.
     post {
         always {
             echo 'Pipeline finalizado, limpiando...'
@@ -23,7 +25,5 @@ pipeline {
         failure {
             echo 'Pipeline falló. Revisa los logs para más detalles.'
         }
-        }
     }
-
 }
