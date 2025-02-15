@@ -1,0 +1,8 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+ name: hello-world-run
+ namespace: diploe2-lunafelipe1997
+spec:
+ taskRef:
+   name: hello-world
