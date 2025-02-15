@@ -1,21 +1,15 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  generateName: git-clone-
+  generateName: list-directory-
   namespace: diploe2-lunafelipe1997
 spec:
   taskRef:
-    kind: Task
-    name: git-clone
+    name: list-directory
   podTemplate:
     securityContext:
       fsGroup: 65532
-  params:
-    - name: url
-      value: https://github.com/DGTIC-Diplomado-Cloud-Native/whitelist-api.git
-    - name: deleteExisting
-      value: "true"
   workspaces:
-    - name: output
+    - name: directory
       persistentVolumeClaim:
         claimName: workspace
