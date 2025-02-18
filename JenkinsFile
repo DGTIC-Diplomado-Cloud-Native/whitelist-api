@@ -22,7 +22,7 @@ pipeline {
         // Etapa 2: Instalación de dependencias
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh 'sudo pip3 install -r requirements.txt'
             }
         }
 
