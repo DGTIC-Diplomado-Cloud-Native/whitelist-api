@@ -21,8 +21,6 @@ spec:
    - name: source
      persistentVolumeClaim:
        claimName: workspace
-   - name: sslcertdir
-     emptyDir: {}
-   - name: docker-config
+   - name: dockerconfig
      secret:
        secretName: dockerconfig-secret
