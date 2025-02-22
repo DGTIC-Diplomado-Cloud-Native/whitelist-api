@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: python-build
+  namespace: diploe2-lunafelipe1997
+spec:
+  workspaces:
+    - name: pip-config
+    - name: source
+  params:
+    - name: PYTHON_VERSION
+      default: "3.13"
+    - name: ARGS
+      type: array
+      description: "Arguments to pass to Python"
+  steps:
+    - name: build
+      image: python:$(params.PYTHON_VERSION)
+      workingDir: $(workspaces.source.path)
+      command: ["python"]
+      args: 
+        - "$(params.ARGS[*])"

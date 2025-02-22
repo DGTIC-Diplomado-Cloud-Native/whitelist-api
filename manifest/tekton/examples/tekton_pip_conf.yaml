@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pip-config
+  namespace: diploe2-lunafelipe1997
+data:
+  pip.conf: |
+    [global]
+    index-url = https://pypi.org/simple
+    trusted-host = pypi.org
