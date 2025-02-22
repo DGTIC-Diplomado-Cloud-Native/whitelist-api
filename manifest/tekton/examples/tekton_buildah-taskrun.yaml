@@ -23,6 +23,6 @@ spec:
        claimName: workspace
    - name: sslcertdir
      emptyDir: {}
-   - name: dockerconfig
+   - name: docker-config
      secret:
        secretName: dockerconfig-secret
