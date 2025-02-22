@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: python-build-
+  namespace: diploe2-lunafelipe1997
+spec:
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  taskRef:
+    kind: Task
+    name: python-build
+  params:
+    - name: PYTHON_VERSION
+      value: "3.13"
+    - name: ARGS
+      value:
+        - -m
+        - pip
+        - install
+        - -r
+        - requirements.txt
+  workspaces:
+    - name: pip-config
+      configMap:
+        name: pip-config
+    - name: source
+      persistentVolumeClaim:
+        claimName: workspace
