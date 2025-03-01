@@ -1,26 +1,29 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
- generateName: buildah-run-
- namespace: diploe2-lunafelipe1997
+  generateName: buildah-run-
+  namespace: diploe2-lunafelipe1997
 spec:
- taskRef:
-   kind: Task
-   name: buildah
- podTemplate:
-   securityContext:
-     fsGroup: 65532
- params:
-   - name: IMAGE
-     value: 'docker.io/aluna1997/whitelist-api:v2'
-   - name: TLSVERIFY
-     value: 'false'
-   - name: STORAGE_DRIVER
-     value: 'vfs'
- workspaces:
-   - name: source
-     persistentVolumeClaim:
-       claimName: workspace
-   - name: dockerconfig
-     secret:
-       secretName: dockerconfig-secret
+  taskRef:
+    kind: Task
+    name: buildah
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: IMAGE
+      value: "docker.io/aluna1997/whitelist-api:v2"
+    - name: TLSVERIFY
+      value: "false"
+    - name: STORAGE_DRIVER
+      value: "vfs"
+  workspaces:
+    - name: source
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: dockerconfig
+      secret:
+        secretName: dockerconfig-secret
+        items:
+          - key: .dockerconfigjson
+            path: config.json
