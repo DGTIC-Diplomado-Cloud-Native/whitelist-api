@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: tekton-sa
-    namespace: default
+    namespace: diploe2-lunafelipe1997
 roleRef:
   kind: Role
   name: tekton-role
