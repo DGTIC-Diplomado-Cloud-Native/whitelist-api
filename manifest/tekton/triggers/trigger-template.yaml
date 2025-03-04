@@ -37,4 +37,4 @@ spec:
           claimName: workspace
       - name: dockerconfig-ws
         secret:
-          secretName: dockerconfig-ws
+          secretName: dockerconfig-secret
