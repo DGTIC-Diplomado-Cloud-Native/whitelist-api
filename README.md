@@ -98,4 +98,4 @@ Tipos:
 - Semantic versioning
 
 ## Pipeline
-Actual: 1
+Actual: 2
