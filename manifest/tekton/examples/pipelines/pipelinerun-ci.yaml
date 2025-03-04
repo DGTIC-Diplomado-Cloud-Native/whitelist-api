@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipelinerun-ci-
+  namespace: default
+spec:
+  serviceAccountName: tekton-sa
+  pipelineRef:
+    name: pipeline-ci
+  params:
+    - name: repo-url
+      value: https://github.com/DGTIC-Diplomado-Cloud-Native/whitelist-api.git
+    - name: image-name
+      value: docker.io/aluna1997/whitelist-api:v2
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace

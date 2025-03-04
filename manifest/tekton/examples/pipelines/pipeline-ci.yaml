@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-ci
+spec:
+  description: |
+    This pipeline clones a Git repository and builds a container image using Buildah.
+  params:
+    - name: repo-url
+      type: string
+    - name: image-name
+      type: string
+  workspaces:
+    - name: workspace
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        kind: Task
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output
+          workspace: workspace
+
+    - name: build-image
+      taskRef:
+        name: buildah
+      runAfter:
+        - fetch-repository
+      params:
+        - name: IMAGE
+          value: $(params.image-name)
+      workspaces:
+        - name: source
+          workspace: workspace
