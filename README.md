@@ -96,3 +96,6 @@ Tipos:
 - PR templates
 - Conventional commits lint
 - Semantic versioning
+
+## Pipeline
+Actual: 1
