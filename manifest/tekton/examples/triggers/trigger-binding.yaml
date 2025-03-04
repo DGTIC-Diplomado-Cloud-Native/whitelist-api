@@ -1,0 +1,15 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-trigger-binding-cicd
+  namespace: diploe2-lunafelipe1997
+spec:
+  params:
+  - name: repo-url
+    value: $(body.repository.clone_url)
+  - name: branch-name
+    value: main
+  - name: image-name
+    value: docker.io/aluna1997/whitelist-api:$(body.head_commit.id)
+  - name: deployment-name
+    value: notifications-service

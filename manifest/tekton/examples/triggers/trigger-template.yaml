@@ -1,0 +1,40 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-trigger-template-cicd
+  namespace: diploe2-lunafelipe1997
+spec:
+  params:
+  - name: repo-url
+    description: The git repository URL to clone from.
+  - name: branch-name
+    description: The git branch to clone.
+  - name: image-name
+    description: The image full path to host the built image, with version tag.
+  - name: deployment-name
+    description: The script file for deployment.
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: pipelinerun-cicd-
+    spec:
+      serviceAccountName: tekton-sa
+      pipelineRef:
+        name: pipeline-cicd
+      params:
+      - name: repo-url
+        value: $(tt.params.repo-url)
+      - name: branch-name
+        value: $(tt.params.branch-name)
+      - name: image-name
+        value: $(tt.params.image-name)
+      - name: deployment-name
+        value: $(tt.params.deployment-name)
+      workspaces:
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: workspace
+      - name: dockerconfig-ws
+        secret:
+          secretName: dockerconfig-ws

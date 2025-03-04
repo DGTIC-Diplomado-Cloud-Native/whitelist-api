@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-cicd
+  namespace: diploe2-lunafelipe1997
+spec:
+  params:
+  - name: repo-url
+    description: The git repository URL to clone from.
+  - name: branch-name
+    description: The git branch to clone.
+  - name: image-name
+    description: The image full path to host the built image, with version tag.
+  - name: deployment-name
+    description: The script file for deployment.
+  workspaces:
+  - name: workspace
+  - name: dockerconfig-ws
+  tasks:
+  - name: clone-repo
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: workspace
+    params:
+    - name: url
+      value: $(params.repo-url)
+    - name: revision
+      value: $(params.branch-name)
+  - name: build-python-image
+    taskRef:
+      name: buildah
+    workspaces:
+    - name: source
+      workspace: workspace
+    - name: dockerconfig
+      workspace: dockerconfig-ws
+    params:
+    - name: IMAGE
+      value: $(params.image-name)
+  - name: deploy
+    taskRef:
+      name: kubectl-apply
+    params:
+    - name: manifest
+      value: $(params.deployment-name)
