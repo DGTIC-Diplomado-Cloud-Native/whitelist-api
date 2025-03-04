@@ -1,0 +1,20 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: event-listener-cicd
+  namespace: diploe2-lunafelipe1997
+spec:
+  serviceAccountName: tekton-triggers-sa
+  triggers:
+    - name: github-listener
+      interceptors:
+        - ref:
+            name: "github"
+            kind: ClusterInterceptor
+          params:
+            - name: "eventTypes"
+              value: ["push"]
+      bindings:
+        - ref: tekton-trigger-binding-cicd
+      template:
+        ref: tekton-trigger-template-cicd
