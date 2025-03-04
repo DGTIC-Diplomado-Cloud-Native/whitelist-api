@@ -12,4 +12,4 @@ spec:
   - name: image-name
     value: docker.io/aluna1997/whitelist-api:$(body.head_commit.id)
   - name: deployment-name
-    value: notifications-service
+    value: whitelist-api-deployment
