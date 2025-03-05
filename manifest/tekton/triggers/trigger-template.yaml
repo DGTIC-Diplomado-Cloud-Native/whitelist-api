@@ -38,3 +38,6 @@ spec:
       - name: dockerconfig-ws
         secret:
           secretName: dockerconfig-secret
+          items:
+            - key: .dockerconfigjson
+              path: config.json
