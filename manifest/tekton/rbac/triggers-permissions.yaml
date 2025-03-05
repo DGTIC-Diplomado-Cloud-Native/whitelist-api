@@ -1,0 +1,52 @@
+# ClusterRole para interceptores
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-triggers-interceptors-roles
+rules:
+- apiGroups: ["triggers.tekton.dev"]
+  resources: ["interceptors", "clusterinterceptors"]
+  verbs: ["get", "list", "watch"]
+---
+# ClusterRoleBinding para interceptores
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-triggers-interceptors-binding
+subjects:
+- kind: ServiceAccount
+  name: tekton-triggers-sa
+  namespace: diploe2-lunafelipe1997
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-triggers-interceptors-roles
+---
+# Role para recursos de triggers en el namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tekton-triggers-resources-role
+  namespace: diploe2-lunafelipe1997
+rules:
+- apiGroups: ["triggers.tekton.dev"]
+  resources: ["eventlisteners", "triggerbindings", "triggertemplates", "triggers"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["tekton.dev"]
+  resources: ["pipelineruns", "taskruns"]
+  verbs: ["create", "get", "list", "watch"]
+---
+# RoleBinding para recursos de triggers
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-triggers-resources-binding
+  namespace: diploe2-lunafelipe1997
+subjects:
+- kind: ServiceAccount
+  name: tekton-triggers-sa
+  namespace: diploe2-lunafelipe1997
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tekton-triggers-resources-role
