@@ -26,13 +26,18 @@ spec:
         if kubectl get deployment ${DEPLOYMENT_NAME} 2>/dev/null; then
           echo "El despliegue ${DEPLOYMENT_NAME} ya existe, actualizando imagen..."
           
-          # Actualizar la imagen 
-          kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE}
+          # Actualizar la imagen usando la lógica original de kubectl-apply-patch-deployment.yaml
+          kubectl patch deployment ${DEPLOYMENT_NAME} --patch="{\"spec\":{\"template\":{\"spec\":{
+            \"containers\":[{
+              \"name\": \"${DEPLOYMENT_NAME}\",
+              \"image\": \"${IMAGE}\"
+            }]
+          }}}}"
         else
           echo "El despliegue ${DEPLOYMENT_NAME} no existe, creándolo..."
           
-          # Usar un nombre fijo para el contenedor
-          kubectl create deployment ${DEPLOYMENT_NAME} --image=${IMAGE}
+          # Lógica original de kubectl-apply-deployment.yaml
+          kubectl create deployment ${DEPLOYMENT_NAME} --image="${IMAGE}"
           
           # Crear el servicio si no existe
           if ! kubectl get service ${DEPLOYMENT_NAME}-service 2>/dev/null; then
