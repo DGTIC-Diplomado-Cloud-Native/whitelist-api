@@ -16,33 +16,11 @@ spec:
     - name: update-deployment
       image: bitnami/kubectl:latest
       script: |
-        #!/usr/bin/env bash
-        set -e
-
         DEPLOYMENT_NAME=$(params.manifest)
         IMAGE=$(params.image)
         NAMESPACE=diploe2-lunafelipe1997
 
-        # Validación básica
-        if [ -z "${DEPLOYMENT_NAME}" ]; then
-          echo "Error: Nombre del deployment no especificado"
-          exit 1
-        fi
-
-        # Verificar existencia del deployment
-        if ! kubectl get deployment -n $NAMESPACE ${DEPLOYMENT_NAME} >/dev/null 2>&1; then
-          echo "Error: El deployment ${DEPLOYMENT_NAME} no existe en el namespace ${NAMESPACE}"
-          exit 1
-        fi
-
-        # Actualizar imagen
-        kubectl set image deployment/${DEPLOYMENT_NAME} -n $NAMESPACE \
-          "${DEPLOYMENT_NAME}=${IMAGE}"
-
-        # Esperar rollout
-        kubectl rollout status deployment/${DEPLOYMENT_NAME} -n $NAMESPACE
-
-        # Opcional: Verificar servicio asociado
-        if ! kubectl get service -n $NAMESPACE ${DEPLOYMENT_NAME}-service >/dev/null 2>&1; then
-          echo "Advertencia: El servicio ${DEPLOYMENT_NAME}-service no existe"
-        fi
+        kubectl delete deployment whitelist-api-deployment
+        kubectl create deployment whitelist-api-deployment --image='docker.io/aluna1997/whitelist-api:v2'
+        echo "----------"
+        kubectl get deployment
