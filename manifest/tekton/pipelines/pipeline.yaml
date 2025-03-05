@@ -29,6 +29,8 @@ spec:
     - name: revision
       value: $(params.branch-name)
   - name: build-python-image
+    runAfter:
+    - clone-repo
     taskRef:
       name: buildah
     workspaces:
@@ -40,6 +42,8 @@ spec:
     - name: IMAGE
       value: $(params.image-name)
   - name: deploy
+    runAfter:
+    - build-python-image
     taskRef:
       name: kubectl-apply
     params:
