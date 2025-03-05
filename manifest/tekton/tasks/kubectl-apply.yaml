@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: kubectl-update
+  name: kubectl-apply
   namespace: diploe2-lunafelipe1997
 spec:
   params:
