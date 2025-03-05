@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-triggers-resources-binding
+  namespace: diploe2-lunafelipe1997
+subjects:
+- kind: ServiceAccount
+  name: tekton-triggers-sa
+  namespace: diploe2-lunafelipe1997
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tekton-triggers-resources-role

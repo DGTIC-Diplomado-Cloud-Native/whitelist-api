@@ -1,52 +1,48 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: kubectl-apply
+  name: kubectl-update
   namespace: diploe2-lunafelipe1997
 spec:
   params:
     - name: manifest
-      description: "Nombre del despliegue a crear o actualizar"
+      description: "Nombre del deployment a actualizar"
       type: string
     - name: image
-      description: "Imagen a usar (opcional)"
+      description: "Imagen a usar"
       type: string
       default: "docker.io/aluna1997/whitelist-api:v2"
   steps:
-    - name: deploy-or-update
+    - name: update-deployment
       image: bitnami/kubectl:latest
       script: |
         #!/usr/bin/env bash
         set -e
-        
+
         DEPLOYMENT_NAME=$(params.manifest)
         IMAGE=$(params.image)
-        
-        # Verificar si el despliegue ya existe
-        if kubectl get deployment ${DEPLOYMENT_NAME} 2>/dev/null; then
-          echo "El despliegue ${DEPLOYMENT_NAME} ya existe, actualizando imagen..."
-          
-          # Actualizar la imagen usando la lógica original de kubectl-apply-patch-deployment.yaml
-          kubectl patch deployment ${DEPLOYMENT_NAME} --patch="{\"spec\":{\"template\":{\"spec\":{
-            \"containers\":[{
-              \"name\": \"${DEPLOYMENT_NAME}\",
-              \"image\": \"${IMAGE}\"
-            }]
-          }}}}"
-        else
-          echo "El despliegue ${DEPLOYMENT_NAME} no existe, creándolo..."
-          
-          # Lógica original de kubectl-apply-deployment.yaml
-          kubectl create deployment ${DEPLOYMENT_NAME} --image="${IMAGE}"
-          
-          # Crear el servicio si no existe
-          if ! kubectl get service ${DEPLOYMENT_NAME}-service 2>/dev/null; then
-            kubectl expose deployment ${DEPLOYMENT_NAME} --port=8000 --target-port=8000 --name=${DEPLOYMENT_NAME}-service
-          fi
+        NAMESPACE=diploe2-lunafelipe1997
+
+        # Validación básica
+        if [ -z "${DEPLOYMENT_NAME}" ]; then
+          echo "Error: Nombre del deployment no especificado"
+          exit 1
         fi
-        
-        echo "----------"
-        kubectl get deployment
-        
-        # Esperar a que el despliegue esté listo
-        kubectl rollout status deployment/${DEPLOYMENT_NAME}
+
+        # Verificar existencia del deployment
+        if ! kubectl get deployment -n $NAMESPACE ${DEPLOYMENT_NAME} >/dev/null 2>&1; then
+          echo "Error: El deployment ${DEPLOYMENT_NAME} no existe en el namespace ${NAMESPACE}"
+          exit 1
+        fi
+
+        # Actualizar imagen
+        kubectl set image deployment/${DEPLOYMENT_NAME} -n $NAMESPACE \
+          "${DEPLOYMENT_NAME}=${IMAGE}"
+
+        # Esperar rollout
+        kubectl rollout status deployment/${DEPLOYMENT_NAME} -n $NAMESPACE
+
+        # Opcional: Verificar servicio asociado
+        if ! kubectl get service -n $NAMESPACE ${DEPLOYMENT_NAME}-service >/dev/null 2>&1; then
+          echo "Advertencia: El servicio ${DEPLOYMENT_NAME}-service no existe"
+        fi

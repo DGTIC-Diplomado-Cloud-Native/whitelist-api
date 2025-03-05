@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-triggers-interceptors-roles
+rules:
+- apiGroups: ["triggers.tekton.dev"]
+  resources: ["interceptors", "clusterinterceptors"]
+  verbs: ["get", "list", "watch"]

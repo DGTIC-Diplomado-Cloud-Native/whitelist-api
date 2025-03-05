@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: whitelist-api-deployment
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: whitelist-api
+ template:
+   metadata:
+     labels:
+       app: whitelist-api
+   spec:
+     imagePullSecrets:
+     - name: dockerhub-secret
+     containers:
+     - name: whitelist-api
+       image: aluna1997/whitelist-api:2.0
+       envFrom:
+        - secretRef:
+            name: api-secrets
+       ports:
+       - containerPort: 8000
+       resources:
+         requests:
+           memory: "128Mi"
+           cpu: "100m"
+         limits:
+           memory: "256Mi"
+           cpu: "500m"

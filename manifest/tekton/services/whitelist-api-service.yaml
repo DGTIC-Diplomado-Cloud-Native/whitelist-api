@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: whitelist-api-service
+spec:
+  selector:
+    app: whitelist-api
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP
