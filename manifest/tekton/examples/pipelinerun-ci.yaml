@@ -11,7 +11,7 @@ spec:
     - name: repo-url
       value: https://github.com/DGTIC-Diplomado-Cloud-Native/whitelist-api.git
     - name: image-name
-      value: docker.io/aluna1997/whitelist-api:v2
+      value: docker.io/aluna1997/whitelist-api:3.0
   workspaces:
     - name: workspace
       persistentVolumeClaim:

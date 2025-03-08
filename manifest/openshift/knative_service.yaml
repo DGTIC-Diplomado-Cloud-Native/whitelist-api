@@ -10,7 +10,7 @@ spec:
         autoscaling.knative.dev/maxScale: "5"
     spec:
       containers:
-        - image: aluna1997/whitelist-api:1.0
+        - image: aluna1997/whitelist-api:3.0
           ports:
             - containerPort: 8000
           env:

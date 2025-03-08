@@ -37,16 +37,22 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"image_url\": \"https://static.wikia.nocookie.net/marvelcinematicuniverse/images/1/1b/Mark_Ruffalo_Foto.png/revision/latest?cb=20220827001254&path-prefix=es\"}",
-							"options": {
-								"raw": {
-									"language": "json"
+						"url": {
+							"raw": "{{host}}collections/search-in-collection/?image_url=https://static.wikia.nocookie.net/marvelcinematicuniverse/images/1/1b/Mark_Ruffalo_Foto.png/revision/latest?cb=20220827001254%26path-prefix=es",
+							"host": [
+								"{{host}}collections"
+							],
+							"path": [
+								"search-in-collection",
+								""
+							],
+							"query": [
+								{
+									"key": "image_url",
+									"value": "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/1/1b/Mark_Ruffalo_Foto.png/revision/latest?cb=20220827001254&path-prefix=es"
 								}
-							}
-						},
-						"url": "{{host}}collections/search-in-collection/"
+							]
+						}
 					},
 					"response": []
 				}
