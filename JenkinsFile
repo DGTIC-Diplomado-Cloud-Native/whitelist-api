@@ -4,7 +4,7 @@ pipeline {
     // Definición de variables de entorno
     environment {
         DOCKERHUB_CREDENTIALS = credentials('lunafelipe1997-docker-registry') // Credenciales de Docker Hub
-        DOCKER_IMAGE = 'aluna1997/whitelist-api:2.0' // Nombre de la imagen Docker
+        DOCKER_IMAGE = 'aluna1997/whitelist-api:3.0' // Nombre de la imagen Docker
     }
 
     stages {

@@ -12,7 +12,7 @@ spec:
       fsGroup: 65532
   params:
     - name: IMAGE
-      value: "docker.io/aluna1997/whitelist-api:v2"
+      value: "docker.io/aluna1997/whitelist-api:3.0"
     - name: TLSVERIFY
       value: "false"
     - name: STORAGE_DRIVER

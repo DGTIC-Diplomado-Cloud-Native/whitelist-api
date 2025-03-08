@@ -16,7 +16,7 @@ spec:
      - name: dockerhub-secret
      containers:
      - name: whitelist-api
-       image: aluna1997/whitelist-api:2.0
+       image: aluna1997/whitelist-api:3.0
        envFrom:
         - secretRef:
             name: api-secrets
