@@ -1,0 +1,18 @@
+2025-03-07 17:17:50 | INFO | Colección 'avengers-whitelist' creada exitosamente!
+2025-03-07 17:17:50 | INFO | ARN: aws:rekognition:us-east-2:984642855701:collection/avengers-whitelist
+2025-03-07 17:18:04 | ERROR | Error al crear colección: An error occurred (ResourceAlreadyExistsException) when calling the CreateCollection operation: The collection id: avengers-whitelist already exists
+2025-03-07 17:33:09 | ERROR | Error procesando /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/scarlett-johansson.jpeg: An error occurred (ResourceNotFoundException) when calling the IndexFaces operation: The collection id: mi-coleccion-rostros does not exist
+2025-03-07 17:33:27 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/scarlett-johansson.jpeg
+2025-03-07 17:33:27 | INFO | Face ID: eefcb74a-754d-4b74-b9e5-f4b1677c8c9e
+2025-03-07 17:33:27 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/jeremy-renner.jpeg
+2025-03-07 17:33:27 | INFO | Face ID: 1ac1ca2b-d7bb-4375-a3d1-54f3f9a6fcd0
+2025-03-07 17:33:28 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/samuel-jackson.jpeg
+2025-03-07 17:33:28 | INFO | Face ID: 5fe0fa50-db78-489a-b511-9ad81c54b2b3
+2025-03-07 17:33:28 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/robert-downey-jr.jpeg
+2025-03-07 17:33:28 | INFO | Face ID: a82fb9f5-9e5a-4663-b50a-8a7583657836
+2025-03-07 17:33:28 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/chris-evans.jpeg
+2025-03-07 17:33:28 | INFO | Face ID: 66047ffb-edd7-4984-93cb-286bec4c44f9
+2025-03-07 17:33:29 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/matk-ruffalo.jpeg
+2025-03-07 17:33:29 | INFO | Face ID: 2e1ec7f2-1821-4e56-920c-8c98eabab602
+2025-03-07 17:33:29 | INFO | Rostro agregado desde /Users/mooncode/Documents/DGTIC/CloudNative/AvancesProyectoFinal/MODULO_05/whitelist-api/app/src/api/img/chris-hemsworth.jpeg
+2025-03-07 17:33:29 | INFO | Face ID: 03f12f0c-9a9c-4471-8d0c-d5f4e04a0210

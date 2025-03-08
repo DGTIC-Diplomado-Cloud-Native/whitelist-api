@@ -1,31 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: whitelist-api-deployment
+  name: whitelist-api-deployment
+  namespace: diploe2-lunafelipe1997
 spec:
- replicas: 1
- selector:
-   matchLabels:
-     app: whitelist-api
- template:
-   metadata:
-     labels:
-       app: whitelist-api
-   spec:
-     imagePullSecrets:
-     - name: dockerhub-secret
-     containers:
-     - name: whitelist-api
-       image: aluna1997/whitelist-api:2.0
-       envFrom:
-        - secretRef:
-            name: api-secrets
-       ports:
-       - containerPort: 8000
-       resources:
-         requests:
-           memory: "128Mi"
-           cpu: "100m"
-         limits:
-           memory: "256Mi"
-           cpu: "500m"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whitelist-api
+  template:
+    metadata:
+      labels:
+        app: whitelist-api
+    spec:
+      containers:
+      - name: whitelist-api
+        image: docker.io/aluna1997/whitelist-api:v2
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongodb:27017/whitelist_db"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: AWS_DEFAULT_REGION
